@@ -24,7 +24,7 @@
           "layer4": [
             {
               "publicPort": "80",
-              "applicationName": "eShopModernizedMvc-SFApp",
+              "applicationName": "eShopModernizedMvc-Standalone-SFApp",
               "serviceName": "eshop-modernized-mvc",
               "endpointName": "mvcListener"
             }
@@ -34,7 +34,7 @@
     },
     {
       "apiVersion": "2018-03-01-privatepreview",
-      "name": "eShopModernizedMvc-SFApp",
+      "name": "eShopModernizedMvc-Standalone-SFApp",
       "type": "Microsoft.ServiceFabric/applications",
       "location": "[parameters('location')]",
       "dependsOn": [

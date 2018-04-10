@@ -1,0 +1,42 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "location": {
+        "type": "string",
+        "defaultValue": "eastus",
+        "metadata": {
+          "description": "Location of the resources."
+        }
+      }
+    },
+    "resources": [
+      {
+        "apiVersion": "2018-03-01-privatepreview",
+        "name": "eShopModernizedNetwork",
+        "type": "Microsoft.ServiceFabric/networks",
+        "location": "[parameters('location')]",
+        "dependsOn": [],
+        "properties": {
+          "schemaVersion": "0.0.1",
+          "addressPrefix": "10.0.0.4/22",
+          "ingressConfig": {
+            "layer4": [
+              {
+                "publicPort": "1433",
+                "applicationName": "eShopModernizedSQL-SFApp",
+                "serviceName": "eshop-modernized-sql",
+                "endpointName": "sqlListener"
+              },
+              {
+                "publicPort": "80",
+                "applicationName": "eShopModernizedMvc-SFApp",
+                "serviceName": "eshop-modernized-mvc",
+                "endpointName": "mvcListener"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }

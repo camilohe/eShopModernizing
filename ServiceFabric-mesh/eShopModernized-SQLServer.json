@@ -1,0 +1,70 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "location": {
+        "type": "string",
+        "defaultValue": "eastus",
+        "metadata": {
+          "description": "Location of the resources."
+        }
+      }
+    },
+    "resources": [
+      {
+        "apiVersion": "2018-03-01-privatepreview",
+        "name": "eShopModernizedSQL-SFApp",
+        "type": "Microsoft.ServiceFabric/applications",
+        "location": "[parameters('location')]",
+        "dependsOn": [],
+        "properties": {
+          "description": "eShopOnModernized SQL Server container on SeaBreeze",
+          "services": [
+            {
+              "type": "Microsoft.ServiceFabric/services",
+              "location": "[parameters('location')]",
+              "name": "eshop-modernized-sql",
+              "properties": {
+                "description": "SQL Server container for eShopModernized",
+                "osType": "windows",
+                "codePackages": [
+                  {
+                    "name": "eshop-modernized-sql-container",
+                    "image": "microsoft/mssql-server-windows-developer:1709",
+                    "endpoints": [
+                      {
+                        "name": "sqlListener",
+                        "port": "1433"
+                      }
+                    ],
+                    "environmentVariables": [
+                      {
+                        "name": "ACCEPT_EULA",
+                        "value": "Y"
+                      },
+                      {
+                          "name": "SA_PASSWORD",
+                          "value": "Your@password2018"
+                      }
+                  ],                    
+                    "resources": {
+                      "requests": {
+                        "cpu": "2",
+                        "memoryInGB": "3.5"
+                      }
+                    }
+                  }         
+                ],
+                "replicaCount": "1",
+                "networkRefs": [
+                  {
+                    "name": "[resourceId('Microsoft.ServiceFabric/networks', 'eShopModernizedNetwork')]"
+                  }
+                ]
+              }
+            }         
+          ]
+        }
+      }
+    ]
+  }

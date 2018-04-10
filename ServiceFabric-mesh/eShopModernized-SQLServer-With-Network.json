@@ -23,7 +23,7 @@
           "ingressConfig": {
             "layer4": [
               {
-                "publicPort": "1433",
+                "publicPort": "5433",
                 "applicationName": "eShopModernizedSQL-Standalone-SFApp",
                 "serviceName": "eshop-modernized-sql",
                 "endpointName": "sqlListener"

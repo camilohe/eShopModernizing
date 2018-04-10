@@ -53,7 +53,7 @@
               "codePackages": [
                 {
                   "name": "eshop-modernized-mvc-container",
-                  "image": "eshop/modernizedmvc:master",
+                  "image": "eshop/modernizedmvc:dev",
                   "endpoints": [
                     {
                       "name": "mvcListener",

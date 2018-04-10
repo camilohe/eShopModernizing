@@ -63,7 +63,7 @@
                     "environmentVariables": [
                       {
                         "name": "ConnectionString",
-                        "value": ""
+                        "value": "NOT_USING_SQL_DB_BECAUSE_USEMOCKDATA_IS_ENABLED"
                       },
                       {
                           "name": "UseMockData",

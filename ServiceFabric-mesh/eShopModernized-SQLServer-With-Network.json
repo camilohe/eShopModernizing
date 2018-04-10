@@ -38,7 +38,7 @@
         "type": "Microsoft.ServiceFabric/applications",
         "location": "[parameters('location')]",
         "dependsOn": [
-          "Microsoft.ServiceFabric/networks/eShopModernizedNetwork"
+          "Microsoft.ServiceFabric/networks/eShopModernizedJustSqlNetwork"
         ],
         "properties": {
           "description": "eShopOnModernized SQL Server container on SeaBreeze",

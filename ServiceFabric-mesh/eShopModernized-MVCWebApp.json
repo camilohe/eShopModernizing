@@ -30,7 +30,7 @@
                 "codePackages": [
                   {
                     "name": "eshop-modernized-mvc-container",
-                    "image": "eshop/modernizedmvc:master",
+                    "image": "eshop/modernizedmvc:4.7.1-windowsservercore-1709",
                     "endpoints": [
                       {
                         "name": "mvcListener",

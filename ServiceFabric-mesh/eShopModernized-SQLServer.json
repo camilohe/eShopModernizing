@@ -58,7 +58,7 @@
                 "replicaCount": "1",
                 "networkRefs": [
                   {
-                    "name": "[resourceId('Microsoft.ServiceFabric/networks', 'eShopModernizedNetwork')]"
+                    "name": "[resourceId('Microsoft.ServiceFabric/networks', 'eShopModernizedNetworkSplitted')]"
                   }
                 ]
               }

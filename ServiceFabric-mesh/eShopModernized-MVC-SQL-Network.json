@@ -1,0 +1,152 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "location": {
+        "type": "string",
+        "defaultValue": "eastus",
+        "metadata": {
+          "description": "Location of the resources."
+        }
+      }
+    },
+    "resources": [
+      {
+        "apiVersion": "2018-03-01-privatepreview",
+        "name": "eShopModernizedNetwork",
+        "type": "Microsoft.ServiceFabric/networks",
+        "location": "[parameters('location')]",
+        "dependsOn": [],
+        "properties": {
+          "schemaVersion": "0.0.1",
+          "addressPrefix": "10.0.0.4/22",
+          "ingressConfig": {
+            "layer4": [
+              {
+                "publicPort": "1433",
+                "applicationName": "eShopModernizedMvc-SFApp",
+                "serviceName": "eshop-modernized-sql",
+                "endpointName": "sqlListener"
+              },
+              {
+                "publicPort": "80",
+                "applicationName": "eShopModernizedMvc-SFApp",
+                "serviceName": "eshop-modernized-mvc",
+                "endpointName": "mvcListener"
+              }
+            ]
+          }
+        }
+      },      
+      {
+        "apiVersion": "2018-03-01-privatepreview",
+        "name": "eShopModernizedMvc-SFApp",
+        "type": "Microsoft.ServiceFabric/applications",
+        "location": "[parameters('location')]",
+        "dependsOn": [],
+        "properties": {
+          "description": "Services for eShopModernized ASP.NET MVC Web App on SeaBreeze (Service Fabric mesh)",
+          "services": [
+            {
+              "type": "Microsoft.ServiceFabric/services",
+              "location": "[parameters('location')]",
+              "name": "eshop-modernized-mvc",
+              "properties": {
+                "description": "ASP.NET MVC Web App container for eShopModernized",
+                "osType": "windows",
+                "codePackages": [
+                  {
+                    "name": "eshop-modernized-mvc-container",
+                    "image": "eshop/modernizedmvc:4.7.1-windowsservercore-1709",
+                    "endpoints": [
+                      {
+                        "name": "mvcListener",
+                        "port": "80"
+                      }
+                    ],
+                    "environmentVariables": [
+                      {
+                        "name": "ConnectionString",
+                        "value": "Server=eshop-modernized-sql;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Your@password2018"
+                      },
+                      {
+                          "name": "UseMockData",
+                          "value": "False"
+                      },
+                      {
+                        "name": "UseCustomizationData",
+                        "value": "False"
+                      },
+                      {
+                        "name": "UseAzureStorage",
+                        "value": "False"
+                      },
+                      {
+                        "name": "UseAzureActiveDirectory",
+                        "value": "False"
+                      }
+                  ],                    
+                    "resources": {
+                      "requests": {
+                        "cpu": "2",
+                        "memoryInGB": "2"
+                      }
+                    }
+                  }         
+                ],
+                "replicaCount": "1",
+                "networkRefs": [
+                  {
+                    "name": "[resourceId('Microsoft.ServiceFabric/networks', 'eShopModernizedNetwork')]"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "Microsoft.ServiceFabric/services",
+              "location": "[parameters('location')]",
+              "name": "eshop-modernized-sql",
+              "properties": {
+                "description": "SQL Server container for eShopModernized",
+                "osType": "windows",
+                "codePackages": [
+                  {
+                    "name": "eshop-modernized-sql-container",
+                    "image": "microsoft/mssql-server-windows-developer:1709",
+                    "endpoints": [
+                      {
+                        "name": "sqlListener",
+                        "port": "1433"
+                      }
+                    ],
+                    "environmentVariables": [
+                      {
+                        "name": "ACCEPT_EULA",
+                        "value": "Y"
+                      },
+                      {
+                          "name": "SA_PASSWORD",
+                          "value": "Your@password2018"
+                      }
+                  ],                    
+                    "resources": {
+                      "requests": {
+                        "cpu": "2",
+                        "memoryInGB": "3.5"
+                      }
+                    }
+                  }         
+                ],
+                "replicaCount": "1",
+                "networkRefs": [
+                  {
+                    "name": "[resourceId('Microsoft.ServiceFabric/networks', 'eShopModernizedNetwork')]"
+                  }
+                ]
+              }
+            }                         
+          ]
+        }
+      }
+    ]
+  }

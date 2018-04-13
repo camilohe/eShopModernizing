@@ -43,7 +43,9 @@
         "name": "eShopModernizedMvc-SFApp",
         "type": "Microsoft.ServiceFabric/applications",
         "location": "[parameters('location')]",
-        "dependsOn": [],
+        "dependsOn": [
+          "Microsoft.ServiceFabric/networks/eShopModernizedNetwork"
+        ],
         "properties": {
           "description": "Services for eShopModernized ASP.NET MVC Web App on SeaBreeze (Service Fabric mesh)",
           "services": [
@@ -51,6 +53,9 @@
               "type": "Microsoft.ServiceFabric/services",
               "location": "[parameters('location')]",
               "name": "eshop-modernized-mvc",
+              "dependsOn": [
+                "Microsoft.ServiceFabric/services/eshop-modernized-sql"
+              ],
               "properties": {
                 "description": "ASP.NET MVC Web App container for eShopModernized",
                 "osType": "windows",
